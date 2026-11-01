@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Fondo del ícono (Cuadrado redondeado estilo iOS/Android) -->
+  <rect width="512" height="512" rx="110" fill="#0A0A0A" />
+  
+  <!-- Borde sutil exterior -->
+  <rect width="512" height="512" rx="110" fill="none" stroke="#27272A" stroke-width="8" />
+
+  <!-- Triángulo Principal (Más grande y con puntas redondeadas) -->
+  <polygon 
+    points="256,70 440,420 72,420" 
+    fill="none" 
+    stroke="#FFFFFF" 
+    stroke-width="24" 
+    stroke-linejoin="round" 
+  />
+  
+  <!-- Punta Rellena Asimétrica (Alineada a los bordes) -->
+  <polygon 
+    points="256,70 332,225 175,255" 
+    fill="#FFFFFF" 
+    stroke="#FFFFFF"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
+</svg>

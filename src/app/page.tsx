@@ -20,7 +20,7 @@ export default function Dashboard() {
   const [energyLevel, setEnergyLevel] = useState<EnergyLevel>(4);
   const [currentDate, setCurrentDate] = useState<string>('');
   const [greeting, setGreeting] = useState<string>('Hola');
-  const [todayStr, setTodayStr] = useState<string>(''); // <-- Nuevo estado para la fecha de hoy
+  const [todayStr, setTodayStr] = useState<string>(''); //
   
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { profile, saveProfile, targets } = useProfile();
@@ -32,7 +32,6 @@ export default function Dashboard() {
     });
     setCurrentDate(formatted);
 
-    // CORRECCIÓN: Calculamos la fecha de hoy aquí (solo en el cliente)
     setTodayStr(now.toISOString().split('T')[0]);
 
     const hour = now.getHours();
@@ -44,7 +43,6 @@ export default function Dashboard() {
   const habits = useLiveQuery(() => db.habits.toArray(), []) || [];
   const todos = useLiveQuery(() => db.todos.toArray(), []) || [];
   
-  // Consultar comidas: Solo ejecutamos si todayStr tiene valor para evitar errores
   const todayMealLogs = useLiveQuery(
     () => (todayStr ? db.mealLogs.where('date').equals(todayStr).toArray() : []),
     [todayStr]

@@ -1,11 +1,13 @@
 {
-  "name": "Stride - Personal Growth",
-  "short_name": "Stride",
-  "description": "Tu sistema personal de crecimiento, hábitos y energía.",
+  "name": "Mejora1 - Hábitos y Fitness",
+  "short_name": "Mejora1",
+  "description": "Tu sistema personal de hábitos y fitness. La cima empieza con un paso.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#09090b",
-  "theme_color": "#09090b",
+  "orientation": "portrait",
+  "lang": "es",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -18,6 +20,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

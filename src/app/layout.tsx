@@ -1,41 +1,60 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// 1. Configuración de la fuente principal (Inter)
+const inter = Inter({ 
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// 1. Metadatos actualizados
+// 2. Metadatos para SEO y Redes Sociales
 export const metadata: Metadata = {
-  title: "Stride | Personal Growth System",
-  description: "Tu sistema personal de crecimiento, hábitos y energía.",
+  title: "Mejora1 | Hábitos y Fitness",
+  description: "La cima empieza con un paso. Tu sistema personal de hábitos, fitness y energía.",
+  applicationName: "Mejora1",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "Mejora1",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    icon: "/icon-192.png", // Asumiendo que guardaste los iconos en /public
+    apple: "/icon-192.png",
+  },
 };
 
-// 2. Viewport para que la barra de estado del celular sea oscura (Modo App)
+// 3. Configuración del Viewport (Para el color de la barra de estado en móviles)
 export const viewport: Viewport = {
-  themeColor: "#09090b", // El color zinc-950 de tu app
+  themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  userScalable: false,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    // 3. Cambiamos el lang a "es" (español)
-    <html
-      lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      {/* Añadimos bg-zinc-950 al body para evitar destellos blancos al cargar */}
-      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-100">
-        {children}
+    <html lang="es" className="dark">
+      <body
+        className={`${inter.variable} ${inter.className} bg-black text-white antialiased min-h-screen flex flex-col selection:bg-white selection:text-black`}
+      >
+        {/* Aquí puedes agregar un Navbar global si lo deseas en el futuro */}
+        
+        <main className="flex-grow">
+          {children}
+        </main>
+
+        {/* Aquí podrías agregar un Footer global */}
       </body>
     </html>
   );

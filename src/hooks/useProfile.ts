@@ -6,7 +6,7 @@ export function useProfile() {
   const [isLoaded, setIsLoaded] = useState(false);
 
 
-  const STORAGE_KEY = 'stride_profile';
+  const STORAGE_KEY = 'mejora_profile';
 
   // Cargar datos al montar
   useEffect(() => {
