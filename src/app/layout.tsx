@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 // 1. Metadatos actualizados
 export const metadata: Metadata = {
-  title: "KuruFit | Personal Growth System",
+  title: "Stride | Personal Growth System",
   description: "Tu sistema personal de crecimiento, hábitos y energía.",
 };
 

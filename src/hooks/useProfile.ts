@@ -5,9 +5,12 @@ export function useProfile() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
+
+  const STORAGE_KEY = 'stride_profile';
+
   // Cargar datos al montar
   useEffect(() => {
-    const saved = localStorage.getItem('kurufit_profile');
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
         setProfile(JSON.parse(saved));
@@ -16,12 +19,12 @@ export function useProfile() {
       }
     }
     setIsLoaded(true);
-  }, []);
+  }, [STORAGE_KEY]);
 
   // Guardar datos
   const saveProfile = (newProfile: UserProfile) => {
     setProfile(newProfile);
-    localStorage.setItem('kurufit_profile', JSON.stringify(newProfile));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newProfile));
   };
 
   // Calcular metas (si existe el perfil)

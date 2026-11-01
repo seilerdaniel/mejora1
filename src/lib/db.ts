@@ -2,7 +2,7 @@ import Dexie, { type Table } from 'dexie';
 import { Habit, TodoItem, MealLog, Recipe, Goal } from '@/types';
 import initialRecipes from '@/data/recipes.json';
 
-export class KuruFitDB extends Dexie {
+export class StrideDB extends Dexie {
   habits!: Table<Habit>;
   todos!: Table<TodoItem>;
   mealLogs!: Table<MealLog>;
@@ -10,7 +10,7 @@ export class KuruFitDB extends Dexie {
   goals!: Table<Goal>;
 
   constructor() {
-    super('KuruFitDB');
+    super('StrideDB');
     this.version(2).stores({
       habits: 'id',
       todos: 'id, category',
@@ -21,7 +21,7 @@ export class KuruFitDB extends Dexie {
   }
 }
 
-export const db = new KuruFitDB();
+export const db = new StrideDB();
 
 // Carga inicial de datos si la base de datos está vacía
 db.on('populate', () => {
