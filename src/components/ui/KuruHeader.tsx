@@ -3,7 +3,7 @@
 import React from 'react';
 import { Leaf } from 'lucide-react';
 
-export function KoreHeader() {
+export function KuruHeader() {
   return (
     <header className="bg-[#243B2F]/40 border border-[#243B2F] p-4 rounded-2xl space-y-3 shadow-lg">
       <div className="flex items-center justify-between">
@@ -13,7 +13,7 @@ export function KoreHeader() {
             <Leaf size={22} className="fill-current" />
           </div>
           <div>
-            <h1 className="text-base font-bold tracking-tight text-[#E6E9D8] font-sans">kore leaf</h1>
+            <h1 className="text-base font-bold tracking-tight text-[#E6E9D8] font-sans">kuru fit</h1>
             <p className="text-[10px] text-[#9EAF91] font-mono tracking-widest uppercase">YOUR PERSONAL GROWTH SYSTEM</p>
           </div>
         </div>

@@ -2,26 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { BottomNav } from '@/components/ui/BottomNav';
-import { Calendar, CheckSquare, Utensils, Sparkles, ChefHat, Check } from 'lucide-react';
+import { Calendar, Sparkles, ChefHat } from 'lucide-react';
 
-interface DayPlan {
-  day: string;
-  lunch: string;
-  dinner: string;
-}
-
-interface PrepItem {
-  id: string;
-  title: string;
-  quantity: string;
-  completed: boolean;
-}
+import { DayPlanCard, DayPlan } from '@/components/planner/DayPlanCard';
+import { BatchCookingItem, PrepItem } from '@/components/planner/BatchCookingItem';
 
 export default function PlannerPage() {
   const [activeTab, setActiveTab] = useState<'weekly' | 'batch'>('weekly');
   const [mounted, setMounted] = useState(false);
 
-  // Estado del Plan Semanal (Guardado en localStorage)
   const [weeklyPlan, setWeeklyPlan] = useState<DayPlan[]>([
     { day: 'Lunes', lunch: 'Bowl de Quinoa, Pollo y Calabaza', dinner: 'Omelette de Espinaca y Queso' },
     { day: 'Martes', lunch: 'Ensalada Proteica de Garbanzos y Atún', dinner: 'Zapallo Anco Relleno de Atún' },
@@ -32,7 +21,6 @@ export default function PlannerPage() {
     { day: 'Domingo', lunch: 'Almuerzo Familiar', dinner: 'Preparación de Menú Semanal' }
   ]);
 
-  // Lista de Tareas para Batch Cooking del Fin de Semana
   const [prepItems, setPrepItems] = useState<PrepItem[]>([
     { id: '1', title: 'Hervir Quinoa / Arroz Integral', quantity: '2 tazas en seco', completed: false },
     { id: '2', title: 'Hornear Calabaza / Zapallo Anco', quantity: '2 unidades medianas', completed: false },
@@ -42,7 +30,6 @@ export default function PlannerPage() {
     { id: '6', title: 'Porcionar Frutos Secos y Avena para meriendas', quantity: '5 frascos/tuppers', completed: false }
   ]);
 
-  // Sincronización client-side y persistencia en localStorage
   useEffect(() => {
     setMounted(true);
     const savedPlan = localStorage.getItem('sproutmind_weekly_plan');
@@ -52,7 +39,6 @@ export default function PlannerPage() {
     if (savedPrep) setPrepItems(JSON.parse(savedPrep));
   }, []);
 
-  // Cambiar plato de la semana
   const handleUpdatePlan = (dayIndex: number, field: 'lunch' | 'dinner', value: string) => {
     const updated = [...weeklyPlan];
     updated[dayIndex][field] = value;
@@ -60,7 +46,6 @@ export default function PlannerPage() {
     localStorage.setItem('sproutmind_weekly_plan', JSON.stringify(updated));
   };
 
-  // Toggle de tarea de Batch Cooking
   const handleTogglePrep = (id: string) => {
     const updated = prepItems.map((item) =>
       item.id === id ? { ...item, completed: !item.completed } : item
@@ -72,28 +57,31 @@ export default function PlannerPage() {
   const completedPrepCount = prepItems.filter((i) => i.completed).length;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 pb-20 pt-6 px-4 antialiased">
-      <main className="max-w-md mx-auto space-y-5">
-        {/* HEADER Y SELECTOR DE PESTAÑA */}
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 pb-20 pt-6 px-4 antialiased relative md:pb-12">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <main className="max-w-md mx-auto space-y-5 relative z-10 md:max-w-6xl md:space-y-6">
+        
+        {/* HEADER Y TABS */}
         <header className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-base font-medium text-zinc-100">Planificación Semanal</h1>
               <p className="text-xs text-zinc-500 font-mono">Menú organizado y Batch Cooking</p>
             </div>
-            <div className="bg-zinc-900 border border-zinc-800 p-2 rounded-xl text-zinc-400">
+            <div className="bg-zinc-900 border border-zinc-800 p-2 rounded-xl text-zinc-400 shadow-sm">
               <Calendar size={18} />
             </div>
           </div>
 
-          <div className="flex bg-zinc-900/80 p-1 rounded-xl border border-zinc-800/80">
+          <div className="flex bg-zinc-900/80 p-1 rounded-xl border border-zinc-800/80 md:max-w-md">
             <button
               onClick={() => setActiveTab('weekly')}
               className={`flex-1 py-1.5 text-xs font-mono rounded-lg transition-colors ${
                 activeTab === 'weekly' ? 'bg-zinc-100 text-zinc-950 font-medium' : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              Menú Lunes a Dom
+              Menú Semanal
             </button>
             <button
               onClick={() => setActiveTab('batch')}
@@ -108,91 +96,47 @@ export default function PlannerPage() {
 
         {/* PESTAÑA 1: MENÚ SEMANAL */}
         {activeTab === 'weekly' && (
-          <div className="space-y-3">
-            <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-3 flex items-center gap-2.5 text-zinc-400 text-xs">
-              <Sparkles size={16} className="text-amber-400 flex-shrink-0" />
-              <span>Un menú planificado evita improvisar decisiones cuando vuelves cansado a las 17:00.</span>
+          <div className="space-y-4 animate-in fade-in duration-300">
+            <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-3 flex items-start gap-2.5 text-zinc-400 text-xs md:max-w-2xl">
+              <Sparkles size={16} className="text-amber-400 flex-shrink-0 mt-0.5" />
+              <span className="leading-relaxed">Un menú planificado evita improvisar decisiones cuando vuelves cansado a las 17:00.</span>
             </div>
 
-            <div className="space-y-2.5">
+            {/* GRID DE DÍAS */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {weeklyPlan.map((item, idx) => (
-                <div
-                  key={item.day}
-                  className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-3.5 space-y-2.5"
-                >
-                  <span className="text-xs font-mono font-medium text-zinc-100 px-2 py-0.5 rounded bg-zinc-950 border border-zinc-800 inline-block">
-                    {item.day}
-                  </span>
-
-                  <div className="grid grid-cols-1 gap-2 pl-1">
-                    <div>
-                      <span className="text-[10px] text-zinc-500 font-mono block">Almuerzo (Tupper fábrica)</span>
-                      <input
-                        type="text"
-                        value={mounted ? item.lunch : ''}
-                        onChange={(e) => handleUpdatePlan(idx, 'lunch', e.target.value)}
-                        className="w-full bg-zinc-950/80 border border-zinc-800/80 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700 mt-1"
-                      />
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] text-zinc-500 font-mono block">Cena (Rápida en casa)</span>
-                      <input
-                        type="text"
-                        value={mounted ? item.dinner : ''}
-                        onChange={(e) => handleUpdatePlan(idx, 'dinner', e.target.value)}
-                        className="w-full bg-zinc-950/80 border border-zinc-800/80 rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700 mt-1"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <DayPlanCard 
+                  key={item.day} 
+                  item={item} 
+                  idx={idx} 
+                  mounted={mounted} 
+                  onUpdate={handleUpdatePlan} 
+                />
               ))}
             </div>
           </div>
         )}
 
-        {/* PESTAÑA 2: BATCH COOKING DE FIN DE SEMANA */}
+        {/* PESTAÑA 2: BATCH COOKING */}
         {activeTab === 'batch' && (
-          <div className="space-y-4">
+          <div className="space-y-4 animate-in fade-in duration-300 md:max-w-3xl md:mx-auto">
             <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-4 space-y-2">
               <div className="flex items-center gap-2">
                 <ChefHat size={18} className="text-zinc-200" />
                 <h3 className="text-xs font-medium text-zinc-100">Sesión del Fin de Semana</h3>
               </div>
-              <p className="text-xs text-zinc-400">
-                Dedica 1.5 horas los sábados o domingos para dejar las bases cocidas. Durante la semana laboral solo tendrás que ensamblar tus tuppers en 3 minutos.
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Dedica 1.5 horas los sábados o domingos para dejar las bases cocidas. Durante la semana laboral solo tendrás que ensamblar tus comidas en 3 minutos.
               </p>
             </div>
 
             <div className="space-y-2">
               {prepItems.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => handleTogglePrep(item.id)}
-                  className={`flex items-center justify-between p-3.5 rounded-xl border transition-all cursor-pointer ${
-                    item.completed
-                      ? 'bg-zinc-950/40 border-zinc-800/40 text-zinc-500'
-                      : 'bg-zinc-900/60 border-zinc-800 text-zinc-100 hover:border-zinc-700'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
-                        item.completed
-                          ? 'bg-zinc-100 border-zinc-100 text-zinc-950'
-                          : 'border-zinc-700 bg-zinc-950'
-                      }`}
-                    >
-                      {item.completed && <Check size={13} strokeWidth={3} />}
-                    </div>
-                    <div>
-                      <p className={`text-xs font-medium ${item.completed ? 'line-through decoration-zinc-600' : ''}`}>
-                        {item.title}
-                      </p>
-                      <span className="text-[10px] text-zinc-500 font-mono">{item.quantity}</span>
-                    </div>
-                  </div>
-                </div>
+                <BatchCookingItem 
+                  key={item.id} 
+                  item={item} 
+                  onToggle={handleTogglePrep} 
+                />
               ))}
             </div>
           </div>

@@ -1,25 +1,27 @@
 import Dexie, { type Table } from 'dexie';
-import { Habit, TodoItem, MealLog, Recipe } from '@/types';
+import { Habit, TodoItem, MealLog, Recipe, Goal } from '@/types';
 import initialRecipes from '@/data/recipes.json';
 
-export class KoreLeafDB extends Dexie {
+export class KuruFitDB extends Dexie {
   habits!: Table<Habit>;
   todos!: Table<TodoItem>;
   mealLogs!: Table<MealLog>;
   recipes!: Table<Recipe>;
+  goals!: Table<Goal>;
 
   constructor() {
-    super('KoreLeafDB');
-    this.version(1).stores({
+    super('KuruFitDB');
+    this.version(2).stores({
       habits: 'id',
       todos: 'id, category',
       mealLogs: '++id, date, mealType',
-      recipes: 'id, category'
+      recipes: 'id, category',
+      goals: '++id'
     });
   }
 }
 
-export const db = new KoreLeafDB();
+export const db = new KuruFitDB();
 
 // Carga inicial de datos si la base de datos está vacía
 db.on('populate', () => {
